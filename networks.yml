@@ -1,0 +1,22 @@
+version: '3'
+services: 
+  web:
+    image: httpd
+    container_name: httpd-1
+    ports:
+      - "8080:80"
+    # Uso de la red creada
+    networks:
+      - net-test
+  # Segundo contenedor
+  web2:
+    image: httpd
+    container_name: httpd-2
+    ports:
+      - "8081:80"
+    # Uso de la red creada
+    networks:
+      - net-test
+# Creación de la red
+networks:
+  net-test:
