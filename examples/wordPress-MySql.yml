@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  # MYSQL
+  db:
+    container_name: wp-mysql
+    image: mysql:5.7
+    volumes:
+      - $PWD/data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    ports:
+      - "3306:3306"
+    networks:
+      - my_net
+
+  # WORDPRESS
+  wp:
+    container_name: wp-web
+    image: wordpress:latest
+    depends_on:
+      - db
+    volumes:
+      - $PWD/data/html:/var/lib/mysql
+    ports:
+      - "80:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+    networks:
+      - my_net
+networks:
+  my_net:
+    name: wp-mysql
