@@ -1,0 +1,39 @@
+# - Crear un docker-compose v3 con dos servicios: db y admin.
+# - En el servicio DB, debe ir una db con mysql:5.7 y las credenciales de tu preferencia.
+# - En el admin, debes usar la imagen oficial de phpmyadmin, y por medio de redes, comunicarla con mysql. Debes exponer el puerto de tu preferencia y para validar que funcione, debes loguearte en el UI de phpmyadmin vía navegador, usando las credenciales del root de mysql.
+
+version: '3'
+
+services:
+  # MYSQL
+  db:
+    container_name: mysql
+    image: mysql:5.7
+    volumes:
+      - $PWD/data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: init
+      MYSQL_USER: astrik
+      MYSQL_PASSWORD: astrik
+    ports:
+      - "3306:3306"
+    networks:
+      - my_net
+
+  # phpmyadmin
+  admin:
+    container_name: phpMyAdmin
+    image: phpmyadmin
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db:3306
+    ports:
+      - "80:80"
+    networks:
+      - my_net
+      
+networks:
+  my_net:
+    name: mysql

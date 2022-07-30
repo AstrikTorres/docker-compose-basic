@@ -1,0 +1,24 @@
+# - Docker Compose V2
+# - La imagen (De apache y php) debe poder construirse desde el docker-compose
+# - Se deben definir los volúmenes solicitados en el ejericicio anterior, más las variables de entorno, límite y demás requisitos especificados en los ejercicios anteriores.
+#     - 50Mb límites de RAM
+#     - Solo podrá acceder a la CPU 0
+#     - Debe tener dos variables de entorno:
+#         - ENV = dev
+#         - VIRTUALIZATION = docker
+#     - El webserver debe ser accesible vía puerto 5555 en el navegador
+#     - En /opt/source1 (Debes crear el directorio en tu máquina local) debe persistir el código que se incluya en el webserver. En este caso, para pruebas, utilizarás un phpinfo que debe sobrevivir a la eliminación del contenedor.
+
+version: '2'
+
+services:
+  web:
+    container_name: php-apache
+    image: php:8.1.9RC1-apache
+    volumes:
+      - /opt/source1:/var/www/html
+    environment:
+      ENV: dev
+      VIRTUALIZACION: docker
+    ports:
+      - "5555:80"
