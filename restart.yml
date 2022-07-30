@@ -1,0 +1,9 @@
+version: '3'
+services:
+  test:
+    container_name: test-restart
+    image: restart-image
+    build:
+      context: ./dockerfiles
+      dockerfile: Dockerfile-restart
+    restart: always
